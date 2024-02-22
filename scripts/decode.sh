@@ -21,7 +21,7 @@ if [[ $LANG == *"-"* ]] ; then
     IFS='-' read -r SRC TGT <<< ${LANG}
     USE_BLEU=true
     if [[ $SRC == "en" ]] ; then
-        DATA_PATH=${DATA_ROOT}/${TASK}/${SRC}/${TGT}/${CLUSTER}
+        DATA_PATH=${DATA_ROOT}/${TASK}/${SRC}/${TGT}
     else
         DATA_PATH=${DATA_ROOT}/${TASK}/${SRC}
     fi
