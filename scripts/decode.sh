@@ -7,9 +7,9 @@
 
 LANG=???
 MODEL_PATH=???  # path to trained model
-OUT_PATH=???    # output path to save
-LLM_PATH=???   # path to llama checkpoint
 DATA_ROOT=???   # path to test dataset dir
+LLM_PATH=???   # path to llama checkpoint
+OUT_PATH=???    # output path to save
 
 # set paths
 ROOT=$(dirname "$(dirname "$(readlink -fm "$0")")")

@@ -7,14 +7,10 @@
 
 
 # set variables
-# PRETRAINED_MODEL_PATH=???   # path to pretrained avhubert
-# DATA_PATH=???   # path to train dataset dir
-# LLM_PATH=???    # path to llama checkpoint
-# OUT_PATH=???    # output path to save 
-PRETRAINED_MODEL_PATH=/mnt/usb/jh/Exp/acl24/av_hubert/avhubert/avhubert_checkpoints/large_vox_iter5.pt   # path to pretrained avhubert
-DATA_PATH=/mnt/usb/jh/Exp/acl24/unit_qlora/v_based_multitask/433h/200   # path to train dataset dir
-LLM_PATH=/mnt/usb/jh/Exp/acl24/av_hubert/avhubert/llm_checkpoints/llama/Llama-2-7b-hf    # path to llama checkpoint
-OUT_PATH=/mnt/usb/jh/Exp/acl24/VSP-LLM/src/exp/test    # output path to save 
+PRETRAINED_MODEL_PATH=???   # path to pretrained avhubert
+DATA_PATH=???   # path to train dataset dir
+LLM_PATH=???    # path to llama checkpoint
+OUT_PATH=???    # output path to save 
 
 ROOT=$(dirname "$(dirname "$(readlink -fm "$0")")")
 SRC=${ROOT}/src
