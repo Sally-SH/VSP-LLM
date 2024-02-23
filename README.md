@@ -9,7 +9,7 @@ We propose a novel framework, namely Visual Speech Processing incorporated with 
 
 ## Model checkpoint
 
-You can find checkpoint of our model in [here]()
+You can find checkpoint of our model in [here](https://drive.google.com/file/d/1fQarnmP5MEMzYCodphisr4QuViqVwuI5/view?usp=sharing)
 
 ## Demo
 Try our VSP-LLM demo using colab 
