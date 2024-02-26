@@ -14,7 +14,7 @@ You can find checkpoint of our model in [here](https://drive.google.com/file/d/1
 ## Demo
 Try our VSP-LLM demo using colab 
 
-## Preparartion
+## Preparation
 ```
 conda create -n vsp-llm python=3.9 -y
 conda activate vsp-llm
@@ -25,8 +25,8 @@ pip install -r requirements.txt
 - Download AV-HuBERT pre-trained model `AV-HuBERT Large (LSR3 + VoxCeleb2)` from [here](http://facebookresearch.github.io/av_hubert).
 - Download LLaMA2-7B from [here](https://huggingface.co/meta-llama/Llama-2-7b-chat-hf). 
 ## Data preprocessing
-Follow [Auto-AVSR preperation](https://github.com/mpc001/auto_avsr/tree/main/preparation) to preprocess the LRS3 dataset.\
-Then, follow [AV-HuBERT preperation](https://github.com/facebookresearch/av_hubert/tree/main/avhubert/preparation) from step 3 to create manifest of LRS3 dataset.
+Follow [Auto-AVSR preparation](https://github.com/mpc001/auto_avsr/tree/main/preparation) to preprocess the LRS3 dataset.\
+Then, follow [AV-HuBERT preparation](https://github.com/facebookresearch/av_hubert/tree/main/avhubert/preparation) from step 3 to create manifest of LRS3 dataset.
 
 ### Generate visual speech unit and cluster counts file
 Follow the steps in [`clustering`](avhubert/clustering/) (pre-train only) to create:
