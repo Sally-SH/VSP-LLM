@@ -22,7 +22,7 @@ following lines are the subpath and number of frames of each video and audio sep
 <id-2> <video-path-2> <audio-path-2> <video-number-frames-2> <audio-number-frames-2>
 ...
 ```
-See [here](../preparation/) for data preparation for LRS3 and VoxCeleb2. 
+See [here](https://github.com/Sally-SH/VSP-LLM/blob/main/README.md#data-preprocessing) for data preparation for LRS3. 
 
 ## AV-HuBERT feature extraction
 To extract features from the 12-th transformer layer of a trained
