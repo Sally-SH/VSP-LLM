@@ -29,7 +29,7 @@ Follow [Auto-AVSR preparation](https://github.com/mpc001/auto_avsr/tree/main/pre
 Then, follow [AV-HuBERT preparation](https://github.com/facebookresearch/av_hubert/tree/main/avhubert/preparation) from step 3 to create manifest of LRS3 dataset.
 
 ### Generate visual speech unit and cluster counts file
-Follow the steps in [`clustering`](avhubert/clustering/) (pre-train only) to create:
+Follow the steps in [`clustering`](src/clustering/) to create:
 - `{train,valid}.km` frame-aligned pseudo label files.
 The `label_rate` is the same as the feature frame rate used for clustering,
 which is 25Hz for AV-HuBERT features by default.
