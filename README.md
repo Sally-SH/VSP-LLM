@@ -1,5 +1,5 @@
 # VSP-LLM (Visual Speech Processing incorporated with LLMs)
-This is the PyTorch code for Where Visual Speech Meets Language: VSP-LLM Framework for Efficient and Context-Aware Visual Speech Processing. This code is developed on the code of [AV-HuBERT](https://github.com/facebookresearch/av_hubert).
+This is the PyTorch code for [Where Visual Speech Meets Language: VSP-LLM Framework for Efficient and Context-Aware Visual Speech Processing](https://arxiv.org/abs/2402.15151). This code is developed on the code of [AV-HuBERT](https://github.com/facebookresearch/av_hubert).
  - [ ] add colab demo
 
 ## Introduction
@@ -90,4 +90,3 @@ Run the decoding script:
 ```bash
 $ bash scripts/decode.sh
 ```
-
