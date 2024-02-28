@@ -28,7 +28,7 @@ pip install -r requirements.txt
 Follow [Auto-AVSR preperation](https://github.com/mpc001/auto_avsr/tree/main/preparation) to preprocess the LRS3 dataset. This will create two directories: `lrs3_video_seg24s` and `lrs3_text_seg24s`.\
 The LRS3 dataset manifest is provided in [dataset](src/dataset/). You need to replace the path of the LRS3 in the manifest file with your preprocessed LRS3 dataset path using the following command:
 ```bash
-cd dataset
+cd src/dataset
 python replace_path.py --lrs3 /path/to/lrs3 --outdir /path/to/save
 ```
 ### Generate visual speech unit and cluster counts file
