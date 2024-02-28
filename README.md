@@ -25,19 +25,20 @@ pip install -r requirements.txt
 - Download AV-HuBERT pre-trained model `AV-HuBERT Large (LSR3 + VoxCeleb2)` from [here](http://facebookresearch.github.io/av_hubert).
 - Download LLaMA2-7B from [here](https://huggingface.co/meta-llama/Llama-2-7b-chat-hf). 
 ## Data preprocessing
-Follow [Auto-AVSR preparation](https://github.com/mpc001/auto_avsr/tree/main/preparation) to preprocess the LRS3 dataset.\
-Then, follow [AV-HuBERT preparation](https://github.com/facebookresearch/av_hubert/tree/main/avhubert/preparation) from step 3 to create manifest of LRS3 dataset.
-
+Follow [Auto-AVSR preperation](https://github.com/mpc001/auto_avsr/tree/main/preparation) to preprocess the LRS3 dataset. This will create two directories: `lrs3_video_seg24s` and `lrs3_text_seg24s`.\
+The LRS3 dataset manifest is provided in [dataset](src/dataset/). You need to replace the path of the LRS3 in the manifest file with your preprocessed LRS3 dataset path using the following command:
+```bash
+cd dataset
+python replace_path.py --lrs3 /path/to/lrs3 --outdir /path/to/save
+```
 ### Generate visual speech unit and cluster counts file
-Follow the steps in [`clustering`](src/clustering/) to create:
-- `{train,valid}.km` frame-aligned pseudo label files.
-The `label_rate` is the same as the feature frame rate used for clustering,
-which is 25Hz for AV-HuBERT features by default.
+If you want to create a "cluster_counts" file for deduplication on your own, follow the steps in [`clustering`](src/clustering/).
 
 ### Dataset layout
     .
-    ├── lrs3_video_seg24s                     # preprocessed video and audio data
-    ├── lrs3_text_seg24s                      # preprocessed text data
+    ├── lrs3
+    │     ├── lrs3_video_seg24s               # preprocessed video and audio data
+    │     └── lrs3_text_seg24s                # preprocessed text data
     └── lrs3_dataset                          
           ├── train.tsv                       # List of audio and video path for training
           ├── train.wrd                       # List of target label for training
