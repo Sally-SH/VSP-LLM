@@ -1,3 +1,0 @@
-src/dataset/train.tsv filter=lfs diff=lfs merge=lfs -text
-src/dataset/train.wrd filter=lfs diff=lfs merge=lfs -text
-src/dataset/train.cluster_counts filter=lfs diff=lfs merge=lfs -text
