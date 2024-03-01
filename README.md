@@ -31,6 +31,9 @@ pip install -r requirements.txt
 - Download AV-HuBERT pre-trained model `AV-HuBERT Large (LSR3 + VoxCeleb2)` from [here](http://facebookresearch.github.io/av_hubert).
 - Download LLaMA2-7B from [here](https://huggingface.co/meta-llama/Llama-2-7b-chat-hf).
 
+## Dataset
+We use [LRS3](https://mmai.io/datasets/lip_reading/) for VSR task and [MuAViC](https://github.com/facebookresearch/muavic) for VST task.
+
 ## Data preprocessing
 
 Follow [Auto-AVSR preperation](https://github.com/mpc001/auto_avsr/tree/main/preparation) to preprocess the LRS3 dataset. This will create two directories: `lrs3_video_seg24s` and `lrs3_text_seg24s`.\
