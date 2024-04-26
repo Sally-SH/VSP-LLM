@@ -2,6 +2,8 @@
 
 This is the PyTorch code for [Where Visual Speech Meets Language: VSP-LLM Framework for Efficient and Context-Aware Visual Speech Processing](https://arxiv.org/abs/2402.15151). This code is developed on the code of [AV-HuBERT](https://github.com/facebookresearch/av_hubert).
 
+We have discovered errors in the process of conducting our translation experiment and are currently revising our paper. 
+We will update as soon as we correct the errors.
 - [ ] add colab demo
 
 ## Introduction
