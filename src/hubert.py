@@ -48,7 +48,7 @@ else:
         AVHubertPretrainingTask,
     )
     from .resnet import ResEncoder
-    from .utils import compute_mask_indices
+    from .utils_vsp_llm import compute_mask_indices
     from .decoder import TransformerDecoder
 
 from omegaconf import II

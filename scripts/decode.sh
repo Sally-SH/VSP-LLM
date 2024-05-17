@@ -9,6 +9,7 @@ LANG=???
 MODEL_PATH=???  # path to trained model
 DATA_ROOT=???   # path to test dataset dir
 LLM_PATH=???   # path to llama checkpoint
+PRETRAINED_HUBERT_PATH=???   # path to pretrained avhubert
 OUT_PATH=???    # output path to save
 
 # set paths
@@ -17,19 +18,16 @@ MODEL_SRC=${ROOT}/src
 
 # fix variables based on langauge
 if [[ $LANG == *"-"* ]] ; then
-    TASK="avst"
+    TASK="vst"
     IFS='-' read -r SRC TGT <<< ${LANG}
     USE_BLEU=true
-    if [[ $SRC == "en" ]] ; then
-        DATA_PATH=${DATA_ROOT}/${TASK}/${SRC}/${TGT}
-    else
-        DATA_PATH=${DATA_ROOT}/${TASK}/${SRC}
-    fi
+    DATA_PATH=${DATA_ROOT}/${TASK}/${SRC}/${TGT}
+
 else
-    TASK="avsr"
+    TASK="vsr"
     TGT=${LANG}
     USE_BLEU=false
-    DATA_PATH=${DATA_ROOT}/${TASK}/${LANG}/${CLUSTER}
+    DATA_PATH=${DATA_ROOT}/${TASK}/${LANG}/
 fi
 
 # start decoding
@@ -46,5 +44,6 @@ python -B ${MODEL_SRC}/vsp_llm_decode.py \
         dataset.max_tokens=3000 \
         override.eval_bleu=${USE_BLEU} \
         override.llm_ckpt_path=${LLM_PATH} \
+        override.w2v_path=${PRETRAINED_HUBERT_PATH} \
         common_eval.path=${MODEL_PATH} \
         common_eval.results_path=${OUT_PATH}/${TASK}/${LANG}

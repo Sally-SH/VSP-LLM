@@ -19,8 +19,8 @@ checkpoint:
 distributed_training:
   ddp_backend: no_c10d
   find_unused_parameters: true
-  distributed_world_size: 4
-  nprocs_per_node: 4
+  distributed_world_size: 8
+  nprocs_per_node: 8
 
 task:
   _name: vsp_llm_training
@@ -54,9 +54,9 @@ criterion:
 
 optimization:
   max_update: 30000
-  lr: [0.001]
+  lr: [0.0005]
   sentence_avg: true
-  update_freq: [2]
+  update_freq: [8]
 
 optimizer:
   _name: adam
@@ -90,6 +90,7 @@ model:
   feature_grad_mult: 1.0
   encoder_embed_dim: 1024
   decoder_embed_dim: 4096
+  freeze_finetune_updates: 40000
 
 
 hydra:

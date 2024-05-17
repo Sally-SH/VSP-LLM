@@ -12,7 +12,7 @@ We propose a novel framework, namely Visual Speech Processing incorporated with 
 
 ## Model checkpoint
 
-You can find checkpoint of our model in [here](https://drive.google.com/file/d/1fQarnmP5MEMzYCodphisr4QuViqVwuI5/view?usp=sharing)
+You can find checkpoint of our model in [here](https://drive.google.com/drive/folders/1aBnm8XOWlRAGjPwcK2mYEGd8insNCx13?usp=sharing)
 
 ## Demo
 
@@ -47,15 +47,38 @@ which is 25Hz for AV-HuBERT features by default.
 
     .
     ├── lrs3
-    │     ├── lrs3_video_seg24s               # preprocessed video and audio data
-    │     └── lrs3_text_seg24s                # preprocessed text data
-    └── lrs3_dataset
-          ├── train.tsv                       # List of audio and video path for training
-          ├── train.wrd                       # List of target label for training
-          ├── train.cluster_counts            # List of clusters to deduplicate speech units in training
-          ├── test.tsv                        # List of audio and video path for testing
-          ├── test.wrd                        # List of target label for testing
-          └── test.cluster_counts             # List of clusters to deduplicate speech units in testing
+    │     ├── lrs3_video_seg24s               # Preprocessed video and audio data
+    │     └── lrs3_text_seg24s                # Preprocessed text data
+    ├── muavic_dataset                        # Mix of VSR data and VST(En-X) data
+    │     ├── train.tsv                       # List of audio and video path for training
+    │     ├── train.wrd                       # List of target label for training
+    │     ├── train.cluster_counts            # List of clusters to deduplicate speech units in training
+    │     ├── test.tsv                        # List of audio and video path for testing
+    │     ├── test.wrd                        # List of target label for testing
+    │     └── test.cluster_counts             # List of clusters to deduplicate speech units in testing
+    └── test_data
+          ├── vsr
+          │    └── en
+          │        ├── test.tsv 
+          │        ├── test.wrd  
+          │        └── test.cluster_counts           
+          └── vst
+               └── ens
+                   ├── es
+                   :   ├── test.tsv
+                   :   ├── test.wrd 
+                   :   └── test.cluster_counts
+                   └── pt
+                       ├── test.tsv
+                       ├── test.wrd 
+                       └── test.cluster_counts
+
+### Test data
+The test manifest is provided in [`labels`](labels/). You need to replace the path of the LRS3 in the manifest file with your preprocessed LRS3 dataset path using the following command:
+```bash
+cd src/dataset
+python replace_path.py --lrs3 /path/to/lrs3 --outdir /path/to/save
+```
 
 ## Training
 
@@ -86,7 +109,7 @@ $ bash scripts/train.sh
 Open the decoding script ([`scripts/decode.sh`](https://github.com/Sally-SH/VSP-LLM/blob/main/scripts/decode.sh)) and replace these variables:
 
 ```bash
-# language direction (e.g "en" or "en-fr")
+# language direction (e.g 'en' for VSR task / 'en-es' for En to Es VST task)
 LANG=???
 
 # path to the trained model
@@ -97,6 +120,9 @@ DATA_PATH=???
 
 # path to llama checkpoint
 LLM_PATH=???
+
+# path to pretrained avhubert
+PRETRAINED_HUBERT_PATH=???
 
 # path where decoding results and scores will be located
 OUT_PATH=???

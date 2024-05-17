@@ -148,6 +148,10 @@ class VSPLLMConfig(FairseqDataclass):
     decoder_embed_dim: int = field(
         default=4096, metadata={"help": "decoder embedding dimension"}
     )
+    freeze_finetune_updates: int = field(
+        default=0,
+        metadata={"help": "dont finetune hubert for this many updates"},
+    )
 
 
 
@@ -190,21 +194,7 @@ class HubertEncoderWrapper(FairseqEncoder):
                 "encoder_padding_mask": padding_mask,  # B x T
                 "padding_mask": padding_mask
             }
-
-    def utut_forward(self, source, padding_mask):
-            x, _ = self.w2v_model(
-                source,
-                padding_mask=padding_mask,
-                layer=None
-            ) 
-            
-            #x = x.transpose(0, 1)
-            
-            return {
-                "encoder_out": x,  # B x T x C
-                "encoder_padding_mask": padding_mask,  # B x T
-                "padding_mask": padding_mask
-            }        
+ 
 
     def reorder_encoder_out(self, encoder_out, new_order):
         if encoder_out["encoder_out"] is not None:
@@ -232,6 +222,7 @@ class avhubert_llm_seq2seq_cluster_count(BaseFairseqModel):
         self.encoder = encoder
         self.decoder = decoder
         self.avfeat_to_llm = nn.Linear(1024, 4096)
+        self.freeze_finetune_updates = cfg.freeze_finetune_updates
         
     @classmethod
     def build_model(cls, cfg, task):
@@ -284,8 +275,6 @@ class avhubert_llm_seq2seq_cluster_count(BaseFairseqModel):
             task_pretrain.load_state_dict(state['task_state'])
 
         encoder_ = task_pretrain.build_model(w2v_args.model)
-        for name, param in encoder_.named_parameters():
-            param.requires_grad = False
 
         encoder = HubertEncoderWrapper(encoder_)
         if state is not None and not cfg.no_pretrained_weights:
@@ -319,7 +308,8 @@ class avhubert_llm_seq2seq_cluster_count(BaseFairseqModel):
         return avhubert_llm_seq2seq_cluster_count(encoder, decoder_4bit, cfg)
     
     def forward(self, **kwargs):
-        with torch.no_grad():
+        ft = self.freeze_finetune_updates <= self.num_updates
+        with torch.no_grad() if not ft else contextlib.ExitStack():
             output = self.encoder(**kwargs)
     
         output['encoder_out'] = self.avfeat_to_llm(output['encoder_out'])
@@ -340,7 +330,6 @@ class avhubert_llm_seq2seq_cluster_count(BaseFairseqModel):
         reduced_enc_out = torch.cat(results_tensor, dim=1)      
         B, T, D = reduced_enc_out.size()
         instruction = kwargs['source']['text']
-        instruction_attn_mask = kwargs['text_attn_mask']
         instruction_embedding = self.decoder.model.model.embed_tokens(instruction)
 
         labels = kwargs['target_list'].clone()
@@ -348,7 +337,6 @@ class avhubert_llm_seq2seq_cluster_count(BaseFairseqModel):
 
         llm_input = torch.cat((instruction_embedding, reduced_enc_out, labels_embedding), dim=1)
         llm_labels = labels.clone()
-        llm_labels_attn_mask = kwargs['target_attn_mask']
         llm_labels[llm_labels == 0] = -100
         
         _, instruction_embedding_t, _ = instruction_embedding.size()
@@ -388,7 +376,6 @@ class avhubert_llm_seq2seq_cluster_count(BaseFairseqModel):
         reduced_enc_out = torch.cat(results_tensor, dim=1)     
         B, T, D = reduced_enc_out.size()
         instruction = kwargs['source']['text']
-        instruction_attn_mask = kwargs['text_attn_mask']
         instruction_embedding = self.decoder.model.model.embed_tokens(instruction)
         llm_input = torch.cat((instruction_embedding, reduced_enc_out), dim=1) 
 
@@ -429,7 +416,7 @@ class avhubert_llm_seq2seq_cluster_count(BaseFairseqModel):
 
     def state_dict(self):
         old_state = super().state_dict()
-        state = {k:v for k,v in old_state.itmes() if 'lora' in k or 'avfeat_to_llm' in k}
+        state = {k:v for k,v in old_state.items() if 'lora' in k or 'avfeat_to_llm' in k or 'encoder' in k}
         return state
 
 

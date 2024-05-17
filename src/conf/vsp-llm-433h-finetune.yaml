@@ -1,0 +1,115 @@
+# @package _group_
+
+common:
+  fp16: true
+  log_format: json
+  log_interval: 200
+  tensorboard_logdir: tblog
+  seed: 1337
+  user_dir: ???
+
+checkpoint:
+  save_interval: 1
+  keep_interval_updates: 1
+  save_interval_updates: 2500
+  no_epoch_checkpoints: true
+  best_checkpoint_metric: accuracy
+  maximize_best_checkpoint_metric: true
+
+distributed_training:
+  ddp_backend: no_c10d
+  find_unused_parameters: true
+  distributed_world_size: 8
+  nprocs_per_node: 8
+
+task:
+  _name: vsp_llm_training
+  is_s2s: true
+  data: ???
+  label_dir: ???
+  normalize: true # must be consistent with pre-training
+  labels: ["wrd"]
+  single_target: true
+  fine_tuning: true
+  stack_order_audio: 4
+  max_sample_size: 500
+  modalities: ["video"]
+  image_aug: true
+  pad_audio: true
+  random_crop: false
+  llm_ckpt_path: ???
+
+dataset:
+  num_workers: 0
+  validate_after_updates: 0
+  validate_interval: 1
+  train_subset: train
+  valid_subset: test
+  batch_size: 1
+
+criterion:
+  _name: decoder_only_language_modeling_loss
+  report_accuracy: true
+  label_smoothing: 0.1
+
+optimization:
+  max_update: 30000
+  lr: [0.0005]
+  sentence_avg: true
+  update_freq: [8]
+
+optimizer:
+  _name: adam
+  adam_betas: (0.9,0.98)
+  adam_eps: 1e-08
+
+lr_scheduler:
+  _name: tri_stage
+  warmup_steps: 10000
+  hold_steps: 0
+  decay_steps: 20000
+  final_lr_scale: 0.05
+
+model:
+  _name: vsp_llm
+  w2v_path: ???
+  llm_ckpt_path: ???
+  apply_mask: false
+  mask_selection: static
+  mask_length: 10
+  mask_other: 0
+  mask_prob: 0.75
+  mask_channel_selection: static
+  mask_channel_length: 64
+  mask_channel_other: 0
+  mask_channel_prob: 0.5
+  layerdrop: 0.1
+  dropout: 0.0
+  activation_dropout: 0.1
+  attention_dropout: 0.0
+  feature_grad_mult: 1.0
+  encoder_embed_dim: 1024
+  decoder_embed_dim: 4096
+  freeze_finetune_updates: 18000
+
+
+hydra:
+  job:
+    config:
+      override_dirname:
+        kv_sep: "-"
+        item_sep: "__"
+        exclude_keys:
+          - run
+          - task.data
+          - task.label_dir
+          - model.w2v_path
+          - dataset.train_subset
+          - dataset.valid_subset
+          - criterion.wer_kenlm_model
+          - criterion.wer_lexicon
+  run:
+    dir: ???
+  sweep:
+    dir: ???
+    subdir: ${hydra.job.config_name}__${hydra.job.override_dirname}

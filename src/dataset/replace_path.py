@@ -2,9 +2,17 @@ import os
 import shutil
 
 def replace(lrs3_path, outdir):
-    splits = ['train','test']
-    for split in splits:
-        file_path = f'./{split}.tsv'       
+    langs = ['en-en','en-es','en-fr','en-it','en-pt']
+    for lang in langs:
+        src, tgt = lang.split('-')
+        if src == tgt:
+            task = 'vsr'
+            lang = src
+        else:
+            task = 'vst'
+            lang = f"{src}/{tgt}"
+            
+        file_path = f'../../labels/{task}/{lang}/test.tsv'       
         f = open(file_path,'r')
         lines = f.readlines()
         f.close()
@@ -20,10 +28,12 @@ def replace(lrs3_path, outdir):
             items[2] = new_audio_path
             tsv_list.append('\t'.join(items))
 
-        with open(f"{outdir}/{split}.tsv",'w') as wf:
+        out_path = f"{outdir}/{task}/{lang}"
+        os.makedirs(out_path,exist_ok=True)
+        with open(f"{out_path}/test.tsv",'w') as wf:
             wf.write(''.join(tsv_list))
-        shutil.copyfile(f"./{split}.wrd", f"{outdir}/{split}.wrd")
-        shutil.copyfile(f"./{split}.cluster_counts", f"{outdir}/{split}.cluster_counts")
+        shutil.copyfile(f"../../labels/{task}/{lang}/test.wrd", f"{out_path}/test.wrd")
+        shutil.copyfile(f"../../labels/{task}/{lang}/test.cluster_counts", f"{out_path}/test.cluster_counts")
 
 
 if __name__ == '__main__':
@@ -32,5 +42,4 @@ if __name__ == '__main__':
     parser.add_argument('--lrs3', type=str, help='path to preprocessed lrs3 dataset')
     parser.add_argument('--outdir', type=str, help='path to save converted manifest')
     args = parser.parse_args()
-    os.makedirs(args.outdir,exist_ok = True)
     replace(args.lrs3, args.outdir)

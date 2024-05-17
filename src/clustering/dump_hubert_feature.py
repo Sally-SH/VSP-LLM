@@ -64,13 +64,11 @@ class HubertFeatureReader(object):
         video_feats = self.load_image(video_fn)
 
         audio_fn = audio_fn.split(':')[0]
-        audio_npy = audio_fn.replace('.wav','.npy')
-        audio_feats = np.load(audio_npy)
         
-        # sample_rate, wav_data = wavfile.read(audio_fn)
-        # assert sample_rate == 16_000 and len(wav_data.shape) == 1
-        # audio_feats = logfbank(wav_data, samplerate=sample_rate).astype(np.float32)
-        # audio_feats = stacker(audio_feats, self.stack_order_audio)
+        sample_rate, wav_data = wavfile.read(audio_fn)
+        assert sample_rate == 16_000 and len(wav_data.shape) == 1
+        audio_feats = logfbank(wav_data, samplerate=sample_rate).astype(np.float32)
+        audio_feats = stacker(audio_feats, self.stack_order_audio)
 
         diff = len(audio_feats) - len(video_feats)
         if diff < 0:
@@ -93,6 +91,8 @@ class HubertFeatureReader(object):
                 audio_feats = F.layer_norm(audio_feats, audio_feats.shape[1:])
             video_feats = video_feats.unsqueeze(dim=0).permute((0, 4, 1, 2, 3)).contiguous()
             audio_feats = audio_feats.unsqueeze(dim=0).transpose(1, 2)
+
+            audio_feats = audio_feats * 0
             source = {'audio': audio_feats, 'video': video_feats}
             if self.layer == 0:
                 ret_conv, output_layer = True, None
@@ -174,7 +174,7 @@ if __name__ == "__main__":
     logger.info(args)
     fairseq.utils.import_user_module(args)
     sys.path.append(args.user_dir)
-    import utils as custom_utils
+    import utils_vsp_llm as custom_utils
     kwargs = vars(args)
     kwargs.update({'custom_utils': custom_utils})
     dump_feature(**kwargs)
