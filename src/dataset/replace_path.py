@@ -1,7 +1,7 @@
 import os
 import shutil
 
-def replace(lrs3_path, outdir):
+def replace(lrs3_path):
     langs = ['en-en','en-es','en-fr','en-it','en-pt']
     for lang in langs:
         src, tgt = lang.split('-')
@@ -28,7 +28,7 @@ def replace(lrs3_path, outdir):
             items[2] = new_audio_path
             tsv_list.append('\t'.join(items))
 
-        out_path = f"{outdir}/{task}/{lang}"
+        out_path = f"./{task}/{lang}"
         os.makedirs(out_path,exist_ok=True)
         with open(f"{out_path}/test.tsv",'w') as wf:
             wf.write(''.join(tsv_list))
@@ -40,6 +40,5 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='replace the path in manifest', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--lrs3', type=str, help='path to preprocessed lrs3 dataset')
-    parser.add_argument('--outdir', type=str, help='path to save converted manifest')
     args = parser.parse_args()
-    replace(args.lrs3, args.outdir)
+    replace(args.lrs3)

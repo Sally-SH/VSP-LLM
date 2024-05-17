@@ -59,7 +59,6 @@ class OverrideConfig(FairseqDataclass):
     label_dir: Optional[str] = field(default=None, metadata={'help': 'path to test label directory'})
     eval_bleu: bool = field(default=False, metadata={'help': 'evaluate bleu score'})
     llm_ckpt_path: str = field(default=MISSING, metadata={'help': 'path to llama checkpoint'})
-    w2v_path:str = field(default=MISSING, metadata={'help': 'path to llama checkpoint'})
 
 @dataclass
 class InferConfig(FairseqDataclass):
@@ -111,7 +110,7 @@ def _main(cfg, output_file):
     utils.import_user_module(cfg.common)
 
     tokenizer = AutoTokenizer.from_pretrained(cfg.override.llm_ckpt_path)
-    model_override_cfg = {'model':{'llm_ckpt_path':cfg.override.llm_ckpt_path,'w2v_path':cfg.override.w2v_path}}
+    model_override_cfg = {'model':{'llm_ckpt_path':cfg.override.llm_ckpt_path}}
     models, saved_cfg, task = checkpoint_utils.load_model_ensemble_and_task([cfg.common_eval.path],model_override_cfg,strict=False)
     models = [model.eval() for model in models]
     saved_cfg.task.modalities = cfg.override.modalities

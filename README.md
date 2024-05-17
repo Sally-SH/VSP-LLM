@@ -12,7 +12,8 @@ We propose a novel framework, namely Visual Speech Processing incorporated with 
 
 ## Model checkpoint
 
-You can find checkpoint of our model in [here](https://drive.google.com/drive/folders/1aBnm8XOWlRAGjPwcK2mYEGd8insNCx13?usp=sharing)
+You can find checkpoint of our model in [here](https://drive.google.com/drive/folders/1aBnm8XOWlRAGjPwcK2mYEGd8insNCx13?usp=sharing).
+Move the checkpoint to [`checkpoints`](checkpoints/).
 
 ## Preparation
 
@@ -28,6 +29,8 @@ pip install --editable ./
 
 - Download AV-HuBERT pre-trained model `AV-HuBERT Large (LSR3 + VoxCeleb2)` from [here](http://facebookresearch.github.io/av_hubert).
 - Download LLaMA2-7B from [here](https://huggingface.co/meta-llama/Llama-2-7b-chat-hf).
+
+Move the AV-HuBERT pre-trained model checkpoint and the LLaMA2-7B checkpoint to [`checkpoints`](checkpoints/).
 
 ## Data preprocessing
 Follow [Auto-AVSR preparation](https://github.com/mpc001/auto_avsr/tree/main/preparation) to preprocess the LRS3 dataset.\
@@ -73,22 +76,17 @@ which is 25Hz for AV-HuBERT features by default.
 The test manifest is provided in [`labels`](labels/). You need to replace the path of the LRS3 in the manifest file with your preprocessed LRS3 dataset path using the following command:
 ```bash
 cd src/dataset
-python replace_path.py --lrs3 /path/to/lrs3 --outdir /path/to/save
+python replace_path.py --lrs3 /path/to/lrs3
 ```
+Then modified test amanifest is saved in [`dataset`](src/dataset/)
 
 ## Training
 
 Open the training script ([`scripts/train.sh`](https://github.com/Sally-SH/VSP-LLM/blob/main/scripts/train.sh)) and replace these variables:
 
 ```bash
-# path to downloaded pre-trained avhubert
-PRETRAINED_MODEL_PATH=???
-
 # path to train dataset dir
 DATA_PATH=???
-
-# path to llama checkpoint
-LLM_PATH=???
 
 # path where output trained models will be located
 OUT_PATH=???
@@ -110,15 +108,6 @@ LANG=???
 
 # path to the trained model
 MODEL_PATH=???
-
-# path to test dataset dir
-DATA_PATH=???
-
-# path to llama checkpoint
-LLM_PATH=???
-
-# path to pretrained avhubert
-PRETRAINED_HUBERT_PATH=???
 
 # path where decoding results and scores will be located
 OUT_PATH=???
