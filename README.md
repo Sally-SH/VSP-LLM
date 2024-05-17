@@ -14,10 +14,6 @@ We propose a novel framework, namely Visual Speech Processing incorporated with 
 
 You can find checkpoint of our model in [here](https://drive.google.com/drive/folders/1aBnm8XOWlRAGjPwcK2mYEGd8insNCx13?usp=sharing)
 
-## Demo
-
-Try our VSP-LLM demo using colab
-
 ## Preparation
 
 ```
@@ -63,7 +59,7 @@ which is 25Hz for AV-HuBERT features by default.
           │        ├── test.wrd  
           │        └── test.cluster_counts           
           └── vst
-               └── ens
+               └── en
                    ├── es
                    :   ├── test.tsv
                    :   ├── test.wrd 
