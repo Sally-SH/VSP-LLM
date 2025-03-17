@@ -8,18 +8,6 @@ We propose a novel framework, namely Visual Speech Processing incorporated with 
 
 ![vsr-vst](docs/demo.gif)
 
-## Citation
-If you find this repository helpful, please use the following BibTeX entry for citation.
-``` BibTeX
-@inproceedings{yeo2024visual,
-  title={Where Visual Speech Meets Language: VSP-LLM Framework for Efficient and Context-Aware Visual Speech Processing},
-  author={Yeo, Jeonghun and Han, Seunghee and Kim, Minsu and Ro, Yong Man},
-  booktitle={Findings of the Association for Computational Linguistics: EMNLP 2024},
-  pages={11391--11406},
-  year={2024}
-}
-```
-
 ## Model checkpoint
 
 You can find checkpoint of our model in [here](https://drive.google.com/drive/folders/1aBnm8XOWlRAGjPwcK2mYEGd8insNCx13?usp=sharing).
@@ -127,4 +115,16 @@ Run the decoding script:
 
 ```bash
 $ bash scripts/decode.sh
+```
+
+## Citation
+If you find this repository helpful, please use the following BibTeX entry for citation.
+``` BibTeX
+@inproceedings{yeo2024visual,
+  title={Where Visual Speech Meets Language: VSP-LLM Framework for Efficient and Context-Aware Visual Speech Processing},
+  author={Yeo, Jeonghun and Han, Seunghee and Kim, Minsu and Ro, Yong Man},
+  booktitle={Findings of the Association for Computational Linguistics: EMNLP 2024},
+  pages={11391--11406},
+  year={2024}
+}
 ```
